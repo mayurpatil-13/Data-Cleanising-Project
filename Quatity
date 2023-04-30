@@ -1,0 +1,17 @@
+import pandas as pd
+
+df = pd.read_excel('CompanyData.xlsx')
+df['Contact Telephone'] = df['Contact Telephone'].str.replace(" ","")
+df['Contact Telephone'] = df['Contact Telephone'].str[-10:]
+new_rows = []
+for index, row in df.iterrows():
+    if row['Quantity'] > 1:
+        for i in range(row['Quantity']):
+            new_row = row.copy()
+            new_row['Quantity'] = 1
+            new_rows.append(new_row)
+    else:
+        new_rows.append(row)
+        
+new_df = pd.DataFrame(new_rows)
+new_df.to_excel('ModifiedData.xlsx', index=False)
